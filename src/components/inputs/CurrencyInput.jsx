@@ -2,7 +2,7 @@
 import { TextField, InputAdornment } from "@mui/material";
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 
-export default function CurrencyInput({ label, setFieldValue, schema, values }){
+export default function CurrencyInput({ label, setFieldValue, schema, values, errors, touched }){
 
     function handleChangeCurrency(e){
         const value = e.target.value.replace('.','')
@@ -32,10 +32,20 @@ export default function CurrencyInput({ label, setFieldValue, schema, values }){
                     </InputAdornment>
                   ),
                 },
+                formHelperText: {
+                  sx: {
+                      position: 'absolute',
+                      bottom: 0,
+                      transform: 'translate(0%,100%)'
+                  }
+              }
               }}
             sx={{
                 gridArea: schema
             }}
+            error={errors[schema] && touched[schema]}
+            helperText={(errors[schema] && touched[schema]) && errors[schema]}
+
         />
     )
 }

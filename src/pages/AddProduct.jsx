@@ -2,6 +2,7 @@
 import { Button, Grid2, Typography } from "@mui/material";
 import { Formik } from "formik";
 import FormInputs from "../components/FormInputs";
+import { addProductSchema } from "../utils/validationSchemas";
 
 const formInputs = [
     {
@@ -66,7 +67,7 @@ const formInputs = [
         label: 'Caracteristicas do Produto',
         type: 'list',
         schema: 'features',
-        subSchema: 'feature'
+        subschema: 'feature'
     },
 ]
 
@@ -74,6 +75,7 @@ export default function AddProduct() {
 
     return (
         <Formik
+            validationSchema={addProductSchema}
             initialValues={{
                 name: '',
                 material: '',

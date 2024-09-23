@@ -7,6 +7,8 @@ import TextInput from "./inputs/TextInput";
 
 export default function FormInputs(props){
 
+    console.log(props)
+
     switch(props.type){
         case 'text': return <TextInput {...props}/>
         case 'number': return <NumberInput {...props}/>
