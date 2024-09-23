@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import FormInputs from "../components/FormInputs";
 import { addProductSchema } from "../utils/validationSchemas";
 import postData from "../services/api";
+import useAppContext from "../hooks/useAppContext";
 
 
 const formInputs = [
@@ -73,6 +74,9 @@ const formInputs = [
 ]
 
 export default function AddProduct() {
+
+    const {teste} = useAppContext()
+
 
     async function handleSubmit(values){
         try {

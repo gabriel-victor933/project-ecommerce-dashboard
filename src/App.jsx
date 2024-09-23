@@ -5,10 +5,12 @@ import { CssBaseline } from "@mui/material"
 import Main from "./layout/Main"
 import Products from "./pages/Products"
 import AddProduct from "./pages/AddProduct"
+import ContextProvider from "./context/context"
 
 function App() {
 
   return (
+    <ContextProvider>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
@@ -25,6 +27,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
+    </ContextProvider>
   )
 }
 
