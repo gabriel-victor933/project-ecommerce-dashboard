@@ -20,7 +20,7 @@ export default function Main(){
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    borderRight: '1px solid #F1F1F3',
+                    borderRight: '1px solid #E4E4E7',
                     bgcolor: 'white.97',
                     p: '10px',
                     gap: '20px',
@@ -56,7 +56,9 @@ export default function Main(){
                     <ArrowRightAltIcon sx={{verticalAlign: 'middle'}}/>
                 </Typography>
             </Grid2>
-            <Grid2>
+            <Grid2
+                p={'10px'}
+            >
                 <Outlet />
             </Grid2>
         </Grid2>
