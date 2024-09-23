@@ -6,21 +6,27 @@ import { FieldArray } from "formik";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 
-export default function ListInput({ label, schema, values, subschema, errors, setFieldError, setFieldTouched, touched }) {
+export default function ListInput({ label, schema, values, errors, touched }) {
 
     const [text, setText] = useState('')
+    const [localError, setLocalError] = useState('')
 
     function handleAddItem(push){
-
         if(text.length < 5) {
-            setFieldError(schema,'Este item é obrigatorio')
-            setFieldTouched(schema,true)
+            setLocalError('Este Campo de ter no minimo 5 caracteres')
             return
         }
-
-            
-        push({ [subschema]: text })
+        push(text)
+        setText('')
     }
+
+    function handleLocalChange(e){
+        const text = e.target.value
+
+        if(text.length >5) setLocalError('')
+
+        setText(text)
+    }   
 
     return (
         <FieldArray
@@ -28,17 +34,19 @@ export default function ListInput({ label, schema, values, subschema, errors, se
             render={(helpers) => (
                 <Grid2
                     sx={{
-                        gridArea: schema
+                        gridArea: schema,
                     }}
+
                 >
                     <TextField
                         type="text"
                         variant="outlined"
+                        name={schema}
                         label={label}
-                        onChange={(e) => setText(e.target.value)}
+                        onChange={handleLocalChange}
                         value={text}
-                        error={errors[schema] && touched[schema]}
-                        helperText={(errors[schema] && touched[schema]) && errors[schema]}
+                        error={(errors[schema] && touched[schema]) || (!!localError) }
+                        helperText={(errors[schema] && touched[schema]) && errors[schema] || localError}
                         slotProps={{
                             formHelperText: {
                                 sx: {
@@ -48,11 +56,14 @@ export default function ListInput({ label, schema, values, subschema, errors, se
                                 }
                             }
                         }}
+                        sx={{
+                            width: '75%'
+                        }}
                     />
                     <IconButton size='large' onClick={() => handleAddItem(helpers.push)}>
                         <AddIcon />
                     </IconButton>
-                    <List>
+                    <List sx={{mt: '7px'}}>
                         {values[schema].map((item, i) => (
                             <ListItem
                                 key={i}
@@ -66,7 +77,7 @@ export default function ListInput({ label, schema, values, subschema, errors, se
                                     <AttachmentIcon />
                                 </ListItemIcon>
                                 <Typography variant='h6'>
-                                    {item[subschema]}
+                                    {item}
                                 </Typography>
                             </ListItem>
                         ))}

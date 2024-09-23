@@ -3,6 +3,8 @@ import { Button, Grid2, Typography } from "@mui/material";
 import { Formik } from "formik";
 import FormInputs from "../components/FormInputs";
 import { addProductSchema } from "../utils/validationSchemas";
+import postData from "../services/api";
+
 
 const formInputs = [
     {
@@ -67,11 +69,27 @@ const formInputs = [
         label: 'Caracteristicas do Produto',
         type: 'list',
         schema: 'features',
-        subschema: 'feature'
     },
 ]
 
 export default function AddProduct() {
+
+    async function handleSubmit(values){
+        try {
+
+            const url = `${import.meta.env.VITE_BASE_URL}/products`
+
+            const formatedPrice = parseFloat(values.price)*100
+
+            const data = await postData(url,{...values,price: formatedPrice})
+
+            console.log(data)
+
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <Formik
@@ -84,10 +102,7 @@ export default function AddProduct() {
                 category: '',
                 features: []
             }}
-            onSubmit={(values) => {
-                console.log('VALUES',values)
-                alert(JSON.stringify(values))
-            }}
+            onSubmit={handleSubmit}
         >
             {props => (
                 <>
