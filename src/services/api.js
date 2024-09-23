@@ -8,5 +8,10 @@ export default async function postData(url, body) {
         },
     })
 
+    if (!response.ok) {
+        const errorMessage = `Erro na requisição: ${response.status} ${response.statusText}`;
+        throw new Error(errorMessage);
+    }
+
     return await response.json()
 }

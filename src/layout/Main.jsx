@@ -1,9 +1,14 @@
-import { Grid2, Typography } from "@mui/material";
+import { Grid2, Snackbar, Typography } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { useNavigate } from "react-router-dom";
+import useAppContext from "../hooks/useAppContext";
+import CheckIcon from '@mui/icons-material/Check';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 export default function Main(){
+
+    const {snackBar, handleCloseSnackBar} = useAppContext()
 
     const nav = useNavigate()
 
@@ -62,6 +67,20 @@ export default function Main(){
             >
                 <Outlet />
             </Grid2>
+            <Snackbar 
+                open={snackBar.open}
+                autoHideDuration={2000}
+                onClose={handleCloseSnackBar}
+                message={snackBar.message}
+                action={snackBar.error ? <CloseOutlinedIcon /> : <CheckIcon />}
+                sx={{
+                    width: '350px',
+                    '& .MuiPaper-root': {
+                        backgroundColor:'grey.15',
+                        fontSize: '16px',
+                    }
+                }}
+            />
         </Grid2>
     )
 }

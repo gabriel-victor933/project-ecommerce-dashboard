@@ -6,7 +6,6 @@ import { addProductSchema } from "../utils/validationSchemas";
 import postData from "../services/api";
 import useAppContext from "../hooks/useAppContext";
 
-
 const formInputs = [
     {
         label: 'Nome do Produto',
@@ -75,8 +74,7 @@ const formInputs = [
 
 export default function AddProduct() {
 
-    const {teste} = useAppContext()
-
+    const { setFeedbackMessage } = useAppContext()
 
     async function handleSubmit(values){
         try {
@@ -85,13 +83,13 @@ export default function AddProduct() {
 
             const formatedPrice = parseFloat(values.price)*100
 
-            const data = await postData(url,{...values,price: formatedPrice})
-
-            console.log(data)
-
+            await postData(url,{...values,price: formatedPrice})
             
-        } catch (error) {
-            console.log(error)
+            setFeedbackMessage('Produto Adicionado com Sucesso',false)
+            
+        } catch (e) {
+            console.log(e)
+            setFeedbackMessage('Erro ao adicionar produto',true)
         }
     }
 
