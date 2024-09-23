@@ -1,8 +1,11 @@
 import { Grid2, Typography } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import { useNavigate } from "react-router-dom";
 
 export default function Main(){
+
+    const nav = useNavigate()
 
     return (
         <Grid2
@@ -20,13 +23,16 @@ export default function Main(){
                     borderRight: '1px solid #F1F1F3',
                     bgcolor: 'white.97',
                     p: '10px',
-                    gap: '10px',
+                    gap: '20px',
+                    borderTopRightRadius: '5px',
+                    borderBottomRightRadius: '5px',
                 }}
             >
                 <Typography variant='h1' textAlign='center' mb='150px'>
                     Klothink
                 </Typography>
                 <Typography 
+                    onClick={() => nav('/products')}
                     variant='h2'
                     textAlign='center'
                     sx={{
@@ -38,6 +44,7 @@ export default function Main(){
                     <ArrowRightAltIcon sx={{verticalAlign: 'middle'}}/>
                 </Typography>
                 <Typography
+                    onClick={() => nav('/stock')}
                     variant='h2'
                     textAlign='center'
                     sx={{
