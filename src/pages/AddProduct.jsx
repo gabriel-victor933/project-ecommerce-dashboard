@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Button, Grid2 } from "@mui/material";
+import { Button, Grid2, Typography } from "@mui/material";
 import { Formik } from "formik";
 import FormInputs from "../components/FormInputs";
 
@@ -61,7 +61,13 @@ const formInputs = [
             },
 
         ]
-    }
+    },
+    {
+        label: 'Caracteristicas do Produto',
+        type: 'list',
+        schema: 'features',
+        subSchema: 'feature'
+    },
 ]
 
 export default function AddProduct() {
@@ -74,11 +80,7 @@ export default function AddProduct() {
                 price: '',
                 type: '',
                 category: '',
-                features: [
-                    {
-                        feature: ''
-                    }
-                ]
+                features: []
             }}
             onSubmit={(values) => {
                 console.log('VALUES',values)
@@ -87,19 +89,26 @@ export default function AddProduct() {
         >
             {props => (
                 <>
+                    <Typography variant='h2' my={'15px'}>
+                        Adicionar Produto
+                    </Typography>
                     <Grid2
                         sx={{
-                            mt: '20px',
+                            
                             borderRadius: '20px',
                             border: '1px solid #F1F1F3',
                             minHeight: '400px',
                             width: '100%',
                             display: 'grid',
                             gridTemplateColumns: '1fr 1fr 1fr',
+                            gridTemplateRows: 'repeat(3,auto)',
+                            gridTemplateAreas: '"name material price" "type category ." "features features ."',
                             alignContent: 'start',
+                            alignItems: 'center',
                             columnGap: '20px',
                             rowGap: '30px',
                             p: '20px',
+                            bgcolor: 'absolute.white',
                         }}
                     >
                         {formInputs.map((input,i) => <FormInputs 
@@ -112,10 +121,11 @@ export default function AddProduct() {
                         sx={{
                             display: 'flex',
                             mt: '20px',
-                            justifyContent: 'flex-end'
+                            justifyContent: 'flex-end',
+                            gap: '10px'
                         }}
                     >
-                        <Button variant='outlined' color='primary' >
+                        <Button variant='outlined' color='primary' sx={{bgcolor: 'absolute.white'}}>
                             Voltar
                         </Button>
                         <Button variant='contained' color='secondary' onClick={props.handleSubmit}>

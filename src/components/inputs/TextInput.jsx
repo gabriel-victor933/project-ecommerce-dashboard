@@ -11,6 +11,9 @@ export default function TextInput({ label, handleChange, schema, values }){
             label={label}
             onChange={handleChange}
             value={values[schema]}
+            sx={{
+                gridArea: schema
+            }}
         />
     )
 }

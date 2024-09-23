@@ -11,6 +11,9 @@ export default function SelectInput({ label, handleChange, schema, values, optio
             label={label}
             onChange={handleChange}
             value={values[schema]}
+            sx={{
+                gridArea: schema
+            }}
         >
             {options.map((option) => (
                 <MenuItem key={option.value} value={option.value}>

@@ -33,6 +33,9 @@ export default function CurrencyInput({ label, setFieldValue, schema, values }){
                   ),
                 },
               }}
+            sx={{
+                gridArea: schema
+            }}
         />
     )
 }

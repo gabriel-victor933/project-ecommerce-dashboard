@@ -58,6 +58,7 @@ export default function Main(){
             </Grid2>
             <Grid2
                 p={'10px'}
+                bgcolor={'white.99'}
             >
                 <Outlet />
             </Grid2>

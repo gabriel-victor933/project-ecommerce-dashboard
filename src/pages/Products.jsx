@@ -28,6 +28,7 @@ export default function Products(){
                         borderRadius: '20px',
                         border: '1px solid #F1F1F3',
                         p: '10px',
+                        bgcolor: 'absolute.white',
                     }}
                 >
                     <Typography variant='h4'>
