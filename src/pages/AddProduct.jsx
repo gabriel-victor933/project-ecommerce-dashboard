@@ -19,6 +19,49 @@ const formInputs = [
         type: 'currency',
         schema: 'price'
     },
+    {
+        label: 'Tipo do Produto',
+        type: 'select',
+        schema: 'type',
+        options: [
+            {
+                label: 'Casual',
+                value: 'Casual'
+            },
+            {
+                label: 'Formal',
+                value: 'Formal'
+            },
+            {
+                label: 'Party',
+                value: 'Party'
+            },
+            {
+                label: 'Bussines',
+                value: 'Bussines'
+            },
+        ]
+    },
+    {
+        label: 'Categoria do Produto',
+        type: 'select',
+        schema: 'category',
+        options: [
+            {
+                label: 'Menswear',
+                value: 'Menswear'
+            },
+            {
+                label: 'Womenswear',
+                value: 'Womenswear'
+            },
+            {
+                label: 'Kidswear',
+                value: 'Kidswear'
+            },
+
+        ]
+    }
 ]
 
 export default function AddProduct() {
@@ -53,7 +96,9 @@ export default function AddProduct() {
                             width: '100%',
                             display: 'grid',
                             gridTemplateColumns: '1fr 1fr 1fr',
-                            gap: '20px',
+                            alignContent: 'start',
+                            columnGap: '20px',
+                            rowGap: '30px',
                             p: '20px',
                         }}
                     >
