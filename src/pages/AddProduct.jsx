@@ -5,6 +5,7 @@ import FormInputs from "../components/FormInputs";
 import { addProductSchema } from "../utils/validationSchemas";
 import postData from "../services/api";
 import useAppContext from "../hooks/useAppContext";
+import { useNavigate } from "react-router-dom";
 
 const formInputs = [
     {
@@ -76,6 +77,8 @@ export default function AddProduct() {
 
     const { setFeedbackMessage } = useAppContext()
 
+    const nav = useNavigate()
+
     async function handleSubmit(values){
         try {
 
@@ -86,6 +89,8 @@ export default function AddProduct() {
             await postData(url,{...values,price: formatedPrice})
             
             setFeedbackMessage('Produto Adicionado com Sucesso',false)
+
+            nav('/products')
             
         } catch (e) {
             console.log(e)
