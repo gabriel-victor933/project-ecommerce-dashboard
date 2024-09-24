@@ -3,9 +3,10 @@ import { Button, Grid2, Typography } from "@mui/material";
 import { Formik } from "formik";
 import FormInputs from "../components/FormInputs";
 import { addProductSchema } from "../utils/validationSchemas";
-import postData from "../services/api";
 import useAppContext from "../hooks/useAppContext";
 import { useNavigate } from "react-router-dom";
+import usePostData from "../hooks/usePostData";
+import { useEffect } from 'react'
 
 const formInputs = [
     {
@@ -77,25 +78,28 @@ export default function AddProduct() {
 
     const { setFeedbackMessage } = useAppContext()
 
+    const { loading, data, error, postData} = usePostData('/products')
+
     const nav = useNavigate()
 
-    async function handleSubmit(values){
-        try {
-
-            const url = `${import.meta.env.VITE_BASE_URL}/products`
-
-            const formatedPrice = parseFloat(values.price)*100
-
-            await postData(url,{...values,price: formatedPrice})
-            
-            setFeedbackMessage('Produto Adicionado com Sucesso',false)
-
-            nav('/products')
-            
-        } catch (e) {
-            console.log(e)
-            setFeedbackMessage('Erro ao adicionar produto',true)
+    useEffect(() => {
+        if(error){
+            setFeedbackMessage("Erro ao salvar produto",true)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[error])
+
+    useEffect(() => {
+        if(data){
+            setFeedbackMessage('Produto Adicionado com Sucesso',false)
+            nav('/products')
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[data])
+
+    async function handleSubmit(values){
+            const formatedPrice = parseFloat(values.price)*100
+            await postData({...values,price: formatedPrice})
     }
 
     return (
@@ -150,6 +154,7 @@ export default function AddProduct() {
                         }}
                     >
                         <Button 
+                            disabled={loading}
                             variant='outlined' 
                             color='primary' 
                             sx={{bgcolor: 'absolute.white'}}
@@ -157,7 +162,12 @@ export default function AddProduct() {
                         >
                             Voltar
                         </Button>
-                        <Button variant='contained' color='secondary' onClick={props.handleSubmit}>
+                        <Button 
+                            variant='contained' 
+                            color='secondary' 
+                            onClick={props.handleSubmit}
+                            disabled={loading}
+                        >
                             Salvar
                         </Button>
                     </Grid2>
