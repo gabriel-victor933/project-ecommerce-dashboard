@@ -1,4 +1,4 @@
-import { Grid2, Box, Typography,Skeleton } from "@mui/material";
+import { Grid2, Box, Typography, Skeleton, Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
@@ -26,7 +26,6 @@ export default function Products(){
                 pt: '30px',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
-                gridAutoRows: '200px',
                 gap: '20px',
                 position: 'relative',
                 minHeight: '100%',
@@ -41,6 +40,9 @@ export default function Products(){
                         border: '1px solid #F1F1F3',
                         p: '20px',
                         bgcolor: 'absolute.white',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '10px'
                     }}
                 >
                     <Typography variant='h2'>
@@ -58,6 +60,9 @@ export default function Products(){
                     <Typography variant='h4'>
                         <strong>price:</strong> R$ {product.price/100}
                     </Typography>
+                    <Button variant='contained' color='secondary'>
+                       + Add Stock
+                    </Button>
                 </Box>
             ))}
             {isLoading && (
@@ -94,7 +99,7 @@ export default function Products(){
                     display: 'grid',
                     placeItems: 'center',
                     cursor: 'pointer',
-                    position: 'absolute',
+                    position: 'fixed',
                     bottom: '20px',
                     right: '20px',
                 }}
