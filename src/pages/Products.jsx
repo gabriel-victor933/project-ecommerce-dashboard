@@ -1,41 +1,88 @@
-import { Grid2, Box, Typography } from "@mui/material";
+import { Grid2, Box, Typography,Skeleton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
+import { useEffect } from "react";
+import useAppContext from "../hooks/useAppContext";
 
 export default function Products(){
 
-    const nav = useNavigate()
+    const { setFeedbackMessage } = useAppContext()
 
-    const products = [1,2,3,4,5,6,7,8]
+    const { data , error, isLoading } = useFetch('/products')
+
+    useEffect(() => {
+        if(error){
+            setFeedbackMessage("Erro ao buscar produtos",true)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[error])
+
+    const nav = useNavigate()
 
     return (
         <Grid2
             sx={{
                 pt: '30px',
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr',
+                gridTemplateColumns: '1fr 1fr',
                 gridAutoRows: '200px',
                 gap: '20px',
                 position: 'relative',
                 minHeight: '100%',
             }}
         >
-            {products.map((product,i) => (
+            {data?.map((product) => (
                 <Box
-                    key={i}
+                    key={product.id}
                     sx={{
-                        minHeight: '200px',
+                        
                         borderRadius: '20px',
                         border: '1px solid #F1F1F3',
-                        p: '10px',
+                        p: '20px',
                         bgcolor: 'absolute.white',
                     }}
                 >
+                    <Typography variant='h2'>
+                        {product.name}
+                    </Typography>
                     <Typography variant='h4'>
-                        produto {product}
+                        <strong>Material:</strong> {product.material}
+                    </Typography>
+                    <Typography variant='h4'>
+                        <strong>type:</strong> {product.type}
+                    </Typography>
+                    <Typography variant='h4'>
+                        <strong>category:</strong> {product.category}
+                    </Typography>
+                    <Typography variant='h4'>
+                        <strong>price:</strong> R$ {product.price/100}
                     </Typography>
                 </Box>
             ))}
+            {isLoading && (
+                <>
+                    <Skeleton 
+                        variant="rectangular" 
+                        animation="wave" 
+                        width={'100%'} 
+                        height={200} 
+                        sx={{
+                            borderRadius: '20px',
+                            bgcolor: 'white.90'
+                        }}/>
+                        <Skeleton 
+                        variant="rectangular" 
+                        animation="wave" 
+                        width={'100%'} 
+                        height={200} 
+                        sx={{
+                            borderRadius: '20px',
+                            bgcolor: 'white.90'
+                        }}/>
+                </>
+                
+            )}
             <Box
                 onClick={() => nav('add')}
                 sx={{

@@ -149,7 +149,12 @@ export default function AddProduct() {
                             gap: '10px'
                         }}
                     >
-                        <Button variant='outlined' color='primary' sx={{bgcolor: 'absolute.white'}}>
+                        <Button 
+                            variant='outlined' 
+                            color='primary' 
+                            sx={{bgcolor: 'absolute.white'}}
+                            onClick={() => nav(-1)}
+                        >
                             Voltar
                         </Button>
                         <Button variant='contained' color='secondary' onClick={props.handleSubmit}>
