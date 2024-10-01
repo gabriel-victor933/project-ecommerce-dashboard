@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { Button, Grid2, Typography } from "@mui/material";
 import { Formik } from "formik";
@@ -5,8 +6,9 @@ import FormInputs from "../components/FormInputs";
 import { addProductSchema } from "../utils/validationSchemas";
 import useAppContext from "../hooks/useAppContext";
 import { useNavigate } from "react-router-dom";
-import usePostData from "../hooks/usePostData";
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import useFetch from "../hooks/useFetch";
+import { postData } from "../services/api";
 
 const formInputs = [
     {
@@ -27,25 +29,8 @@ const formInputs = [
     {
         label: 'Tipo do Produto',
         type: 'select',
-        schema: 'type',
-        options: [
-            {
-                label: 'Casual',
-                value: 'Casual'
-            },
-            {
-                label: 'Formal',
-                value: 'Formal'
-            },
-            {
-                label: 'Party',
-                value: 'Party'
-            },
-            {
-                label: 'Bussines',
-                value: 'Bussines'
-            },
-        ]
+        schema: 'typeId',
+        options: []
     },
     {
         label: 'Categoria do Produto',
@@ -76,30 +61,55 @@ const formInputs = [
 
 export default function AddProduct() {
 
+    const [loading, setLoading] = useState(false)
+    const [inputs, setInputs] = useState(formInputs)
+
     const { setFeedbackMessage } = useAppContext()
 
-    const { loading, data, error, postData} = usePostData('/products')
+    const {data, error, isLoading} = useFetch('/product-type')
 
     const nav = useNavigate()
 
     useEffect(() => {
-        if(error){
-            setFeedbackMessage("Erro ao salvar produto",true)
+
+        if(data){
+            inputs[3].options = data.map((productType) => ( {label: productType.type, value: productType.id }))
+            
+            setInputs(inputs)
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[error])
+
+    }, [data])
 
     useEffect(() => {
-        if(data){
-            setFeedbackMessage('Produto Adicionado com Sucesso',false)
-            nav('/products')
+
+        if(error){
+            setFeedbackMessage("Erro ao carregar tipo de produto!",true)
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[data])
+
+    }, [error])
 
     async function handleSubmit(values){
+
+        try {
+            setLoading(true)
             const formatedPrice = parseFloat(values.price)*100
-            await postData({...values,price: formatedPrice})
+
+            console.log(values)
+
+            await postData('/products',{...values,price: formatedPrice})
+
+            setFeedbackMessage('Produto Adicionado com Sucesso',false)
+
+        } catch (e) {
+            console.log(e)
+            setFeedbackMessage("Erro ao salvar produto",true)
+
+        } finally {
+
+            setLoading(false)
+
+        }
+
     }
 
     return (
@@ -109,7 +119,7 @@ export default function AddProduct() {
                 name: '',
                 material: '',
                 price: '',
-                type: '',
+                typeId: '',
                 category: '',
                 features: []
             }}
@@ -130,7 +140,7 @@ export default function AddProduct() {
                             display: 'grid',
                             gridTemplateColumns: '1fr 1fr 1fr',
                             gridTemplateRows: 'repeat(3,auto)',
-                            gridTemplateAreas: '"name material price" "type category ." "features features ."',
+                            gridTemplateAreas: '"name material price" "typeId category ." "features features ."',
                             alignContent: 'start',
                             alignItems: 'center',
                             columnGap: '20px',
@@ -139,7 +149,7 @@ export default function AddProduct() {
                             bgcolor: 'absolute.white',
                         }}
                     >
-                        {formInputs.map((input,i) => <FormInputs 
+                        {inputs.map((input,i) => <FormInputs 
                                                     key={i}
                                                     {...input}
                                                     {...props}
@@ -154,7 +164,7 @@ export default function AddProduct() {
                         }}
                     >
                         <Button 
-                            disabled={loading}
+                            disabled={loading || isLoading}
                             variant='outlined' 
                             color='primary' 
                             sx={{bgcolor: 'absolute.white'}}
@@ -166,7 +176,7 @@ export default function AddProduct() {
                             variant='contained' 
                             color='secondary' 
                             onClick={props.handleSubmit}
-                            disabled={loading}
+                            disabled={loading || isLoading}
                         >
                             Salvar
                         </Button>
