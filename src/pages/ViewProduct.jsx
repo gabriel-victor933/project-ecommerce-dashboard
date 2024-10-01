@@ -4,6 +4,7 @@ import useFetch from "../hooks/useFetch"
 import { useEffect } from "react"
 import useAppContext from "../hooks/useAppContext";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import StockForms from "../components/stock/StockForms";
 
 export default function ViewProduct() {
 
@@ -109,6 +110,7 @@ export default function ViewProduct() {
                         +
                     </Typography>
             </Grid2>
+            <StockForms />
         </>
     )
 }
