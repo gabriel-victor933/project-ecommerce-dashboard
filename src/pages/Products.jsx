@@ -26,6 +26,7 @@ export default function Products(){
                 pt: '30px',
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
+                gridAutoRows: 'min-content',
                 gap: '20px',
                 position: 'relative',
                 minHeight: '100%',
@@ -91,7 +92,7 @@ export default function Products(){
             <Box
                 onClick={() => nav('add')}
                 sx={{
-                    border: '1px solid #F1F1F3',
+                    border: '1px solid #E4E4E7',
                     width: '60px',
                     height: '60px',
                     bgcolor: '#F1F1F3',
