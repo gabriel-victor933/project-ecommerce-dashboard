@@ -19,7 +19,7 @@ export default function Products(){
     },[error])
 
     const nav = useNavigate()
-
+    console.log(data)
     return (
         <Grid2
             sx={{
@@ -53,7 +53,7 @@ export default function Products(){
                         <strong>Material:</strong> {product.material}
                     </Typography>
                     <Typography variant='h4'>
-                        <strong>type:</strong> {product.type}
+                        <strong>type:</strong> {product.productType.type}
                     </Typography>
                     <Typography variant='h4'>
                         <strong>category:</strong> {product.category}
