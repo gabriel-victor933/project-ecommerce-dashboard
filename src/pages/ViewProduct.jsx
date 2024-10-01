@@ -54,7 +54,7 @@ export default function ViewProduct() {
             </Grid2>
         )
     }
-    console.log(data)
+
     return (
         <>
             <Grid2
@@ -66,8 +66,8 @@ export default function ViewProduct() {
                     minHeight: '100px'
                 }}
             >
-                <IconButton onClick={() => nav(-1)}>
-                    <KeyboardBackspaceIcon sx={{color: 'grey.15'}}/>
+                <IconButton onClick={() => nav(-1)} disabled={isLoading} sx={{color: 'grey.15'}}>
+                    <KeyboardBackspaceIcon />
                 </IconButton>
                 <Typography variant='h1'>
                     {data.name}
@@ -110,7 +110,7 @@ export default function ViewProduct() {
                         +
                     </Typography>
             </Grid2>
-            <StockForms />
+            <StockForms productId={id}/>
         </>
     )
 }

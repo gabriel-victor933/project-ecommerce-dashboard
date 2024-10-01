@@ -10,10 +10,11 @@ export const addProductSchema = yup.object({
 })
 
 export const addStockSchema = yup.object({
+    principal: yup.boolean(),
     color: yup.string(),
-    s: yup.number().min(1, 'Este item deve ser maior do que 1').required('Este item é obrigatório.'),
-    m: yup.number().min(1, 'Este item deve ser maior do que 1').required('Este item é obrigatório.'),
-    l: yup.number().min(1, 'Este item deve ser maior do que 1').required('Este item é obrigatório.'),
-    xl: yup.number().min(1, 'Este item deve ser maior do que 1').required('Este item é obrigatório.'),
-    xxl: yup.number().min(1, 'Este item deve ser maior do que 1').required('Este item é obrigatório.'),
+    S: yup.number().min(0, 'Este item deve ser maior do que 0').required('Este item é obrigatório.'),
+    M: yup.number().min(0, 'Este item deve ser maior do que 0').required('Este item é obrigatório.'),
+    L: yup.number().min(0, 'Este item deve ser maior do que 0').required('Este item é obrigatório.'),
+    XL: yup.number().min(0, 'Este item deve ser maior do que 0').required('Este item é obrigatório.'),
+    XXL: yup.number().min(0, 'Este item deve ser maior do que 0').required('Este item é obrigatório.'),
 })

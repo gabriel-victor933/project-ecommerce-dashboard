@@ -4,7 +4,6 @@ export default function useFetch(url){
 
     const baseUrl = import.meta.env.VITE_BASE_URL + url
 
-    console.log(baseUrl)
     const { data , error, isLoading } = useSWR(baseUrl, fetcher) 
 
 

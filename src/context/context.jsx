@@ -6,6 +6,8 @@ export const AppContext = createContext(null);
 // eslint-disable-next-line react/prop-types
 export default function ContextProvider({ children }){
 
+    const [globalLoading, setGlobalLoading] = useState(false)
+
     const [snackBar, setSnackBar] = useState({open: false, message: '', error: true})
 
     function handleCloseSnackBar(){
@@ -17,7 +19,7 @@ export default function ContextProvider({ children }){
     }
 
     return (
-        <AppContext.Provider value={{snackBar, handleCloseSnackBar, setFeedbackMessage}}>
+        <AppContext.Provider value={{snackBar, handleCloseSnackBar, setFeedbackMessage, globalLoading, setGlobalLoading}}>
             {children}
         </AppContext.Provider>
     )

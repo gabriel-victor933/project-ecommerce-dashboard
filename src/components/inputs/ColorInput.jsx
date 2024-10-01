@@ -2,7 +2,6 @@
 import { TextField } from "@mui/material";
 
 export default function ColorInput({ label, handleChange, schema, values, errors, touched }){
-    console.log(values)
     return(
         <TextField 
             type="color"

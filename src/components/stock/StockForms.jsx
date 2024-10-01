@@ -3,7 +3,8 @@ import { Formik } from "formik";
 import { addStockSchema } from "../../utils/validationSchemas";
 import FormInputs from "../FormInputs";
 import { Grid2,Button } from "@mui/material";
-import { useState } from "react";
+import useAppContext from "../../hooks/useAppContext";
+import { postData } from "../../services/api";
 
 const formInputs = [
     {
@@ -14,46 +15,86 @@ const formInputs = [
     {
         label: 'qtd tamanho S',
         type: 'number',
-        schema: 's'
+        schema: 'S'
     },
     {
         label: 'qtd tamanho M',
         type: 'number',
-        schema: 'm'
+        schema: 'M'
     },
     {
         label: 'qtd tamanho L',
         type: 'number',
-        schema: 'l'
+        schema: 'L'
     },
     {
         label: 'qtd tamanho XL',
         type: 'number',
-        schema: 'xl'
+        schema: 'XL'
     },
     {
         label: 'qtd tamanho XXL',
         type: 'number',
-        schema: 'xxl'
+        schema: 'XXL'
     },
+    {
+        label: 'Modelo principal',
+        type: 'switch',
+        schema: 'principal'
+    }
 ]
 
-export default function StockForms() {
+export default function StockForms({ productId }) {
 
-    const [loading, setLoading] = useState(false)
+    const { setFeedbackMessage, setGlobalLoading, globalLoading } = useAppContext()
+
+    async function handleSubmit(values){
+        try {
+            setGlobalLoading(true)
+
+            const temp = {...values}
+
+            const color = temp.color
+            const principal = temp.principal
+
+            const payload = {
+                color,
+                principal,
+                productId,
+                sizes: []
+            }
+
+            delete temp.color
+            delete temp.principal
+
+            for (const [size, qtd] of Object.entries(temp)) {
+                payload.sizes.push({quantity: qtd, size: size})
+            }
+
+            await postData('/stock',payload)
+
+            setFeedbackMessage("informações salvas!",false)
+        } catch (error) {
+            console.log(error)
+            setFeedbackMessage("Erro ao salvar informações de stock!",true)
+        } finally {
+            setGlobalLoading(false)
+        }
+    }
 
     return (
         <Formik
             validationSchema={addStockSchema}
             initialValues={{
+                principal: false,
                 color: '#000000',
-                s: 0,
-                m: 0,
-                l: 0,
-                xl: 0,
-                xxl: 0,
+                S: 0,
+                M: 0,
+                L: 0,
+                XL: 0,
+                XXL: 0,
             }}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={handleSubmit}
         >
             {props => (
                 <>
@@ -67,7 +108,7 @@ export default function StockForms() {
                             display: 'grid',
                             gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
                             gridTemplateRows: 'repeat(1,auto)',
-                            gridTemplateAreas: '"color s m l xl xxl"',
+                            gridTemplateAreas: '"color S M L XL XXL"',
                             alignContent: 'start',
                             alignItems: 'center',
                             columnGap: '20px',
@@ -91,7 +132,7 @@ export default function StockForms() {
                         }}
                     >
                         <Button 
-                            disabled={loading}
+                            disabled={globalLoading}
                             variant='outlined' 
                             color='primary' 
                             sx={{bgcolor: 'absolute.white'}}
@@ -102,7 +143,7 @@ export default function StockForms() {
                             variant='contained' 
                             color='secondary' 
                             onClick={props.handleSubmit}
-                            disabled={loading}
+                            disabled={globalLoading}
                         >
                             Salvar
                         </Button>
