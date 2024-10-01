@@ -69,7 +69,7 @@ export default function Main(){
             </Grid2>
             <Snackbar 
                 open={snackBar.open}
-                autoHideDuration={2000}
+                autoHideDuration={3000}
                 onClose={handleCloseSnackBar}
                 message={snackBar.message}
                 action={snackBar.error ? <CloseOutlinedIcon /> : <CheckIcon />}

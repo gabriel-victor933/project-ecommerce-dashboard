@@ -6,6 +6,7 @@ import Main from "./layout/Main"
 import Products from "./pages/Products"
 import AddProduct from "./pages/AddProduct"
 import ContextProvider from "./context/context"
+import ViewProduct from "./pages/ViewProduct"
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
               <Route path='products'>
                 <Route index element={<Products />}/>
                 <Route path='add' element={<AddProduct />}/>
+                <Route path=':id' element={<ViewProduct />}/>
                 <Route />
               </Route>
               <Route path='stock' element={<>stock</>}/>

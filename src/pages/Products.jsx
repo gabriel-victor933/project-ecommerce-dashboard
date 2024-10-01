@@ -19,7 +19,6 @@ export default function Products(){
     },[error])
 
     const nav = useNavigate()
-    console.log(data)
     return (
         <Grid2
             sx={{
@@ -61,8 +60,8 @@ export default function Products(){
                     <Typography variant='h4'>
                         <strong>price:</strong> R$ {product.price/100}
                     </Typography>
-                    <Button variant='contained' color='secondary'>
-                       + Add Stock
+                    <Button variant='contained' color='secondary' onClick={() => nav(product.id)}>
+                       View Product
                     </Button>
                 </Box>
             ))}
