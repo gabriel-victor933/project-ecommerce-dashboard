@@ -198,6 +198,28 @@ export const theme = createTheme({
                     }
                 }
             }
+        },
+
+        MuiTableHead: {
+            styleOverrides: {
+                root: {
+                    '& .MuiTableCell-head': {
+                        fontSize: '18px',
+                        fontWeight: '600',
+                    }
+                }
+            }
+        },
+
+        MuiTableBody: {
+            styleOverrides: {
+                root: {
+                    '& .MuiTableCell-body': {
+                        fontSize: '18px',
+                        fontWeight: '400',
+                    }
+                }
+            }
         }
     },
     breakpoints: {

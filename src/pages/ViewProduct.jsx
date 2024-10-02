@@ -1,10 +1,11 @@
-import { Grid2, Skeleton, Typography, Box, IconButton, Button } from "@mui/material"
+import { Grid2, Skeleton, Typography, Box, IconButton, Button, Divider } from "@mui/material"
 import { useNavigate, useParams } from "react-router-dom"
 import useFetch from "../hooks/useFetch"
 import { useEffect, useState } from "react"
 import useAppContext from "../hooks/useAppContext";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import StockForms from "../components/stock/StockForms";
+import StockCard from "../components/stock/StockCard";
 
 export default function ViewProduct() {
 
@@ -56,9 +57,15 @@ export default function ViewProduct() {
             </Grid2>
         )
     }
-
+    console.log(data)
     return (
-        <>
+        <Grid2
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '15px',
+            }}
+        >
             <Grid2
                 sx={{
                     borderRadius: '20px',
@@ -98,14 +105,16 @@ export default function ViewProduct() {
                 </Box>
 
             </Grid2>
-
+            <Divider />
+            {data?.stocks.map((stock, i) => (
+                <StockCard key={i} {...stock} />
+            ))}
             {openForms ?
                 (
                     <StockForms productId={id} closeAction={() => setOpenForms(false)} />
                 ) : (
                     <Grid2
                         sx={{
-                            mt: '20px',
                             display: 'grid',
                             placeItems: 'center',
                             borderRadius: '20px',
@@ -117,7 +126,7 @@ export default function ViewProduct() {
                             onClick={() => setOpenForms(true)}
                             sx={{
                                 width: '100%',
-                                fontSize: '40px',
+                                fontSize: '40px !important',
                                 fontWeight: '700',
                                 color: 'grey.30',
                                 py: '0px',
@@ -131,6 +140,6 @@ export default function ViewProduct() {
                 )}
 
 
-        </>
+        </Grid2>
     )
 }
