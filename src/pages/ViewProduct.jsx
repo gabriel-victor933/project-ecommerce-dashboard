@@ -101,7 +101,7 @@ export default function ViewProduct() {
 
             {openForms ?
                 (
-                    <StockForms productId={id} followUpAction={() => setOpenForms(false)} />
+                    <StockForms productId={id} closeAction={() => setOpenForms(false)} />
                 ) : (
                     <Grid2
                         sx={{
