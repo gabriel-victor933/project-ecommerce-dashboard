@@ -1,12 +1,14 @@
-import { Grid2, Skeleton, Typography, Box, IconButton } from "@mui/material"
+import { Grid2, Skeleton, Typography, Box, IconButton, Button } from "@mui/material"
 import { useNavigate, useParams } from "react-router-dom"
 import useFetch from "../hooks/useFetch"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import useAppContext from "../hooks/useAppContext";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import StockForms from "../components/stock/StockForms";
 
 export default function ViewProduct() {
+
+    const [openForms, setOpenForms] = useState(false)
 
     const nav = useNavigate()
 
@@ -37,7 +39,7 @@ export default function ViewProduct() {
         )
     }
 
-    if(error){
+    if (error) {
         return (
             <Grid2
                 sx={{
@@ -66,7 +68,7 @@ export default function ViewProduct() {
                     minHeight: '100px'
                 }}
             >
-                <IconButton onClick={() => nav(-1)} disabled={isLoading} sx={{color: 'grey.15'}}>
+                <IconButton onClick={() => nav(-1)} disabled={isLoading} sx={{ color: 'grey.15' }}>
                     <KeyboardBackspaceIcon />
                 </IconButton>
                 <Typography variant='h1'>
@@ -96,21 +98,39 @@ export default function ViewProduct() {
                 </Box>
 
             </Grid2>
-            <Grid2
-                sx={{
-                    mt: '20px',
-                    display: 'grid',
-                    placeItems: 'center',
-                    borderRadius: '20px',
-                    border: '1px solid #E4E4E7',
-                    bgcolor: 'white.95',
-                }}
-            >
-                    <Typography fontSize={'50px'} fontWeight={'700'} color={'grey.30'} sx={{cursor: 'pointer'}}>
-                        +
-                    </Typography>
-            </Grid2>
-            <StockForms productId={id}/>
+
+            {openForms ?
+                (
+                    <StockForms productId={id} followUpAction={() => setOpenForms(false)} />
+                ) : (
+                    <Grid2
+                        sx={{
+                            mt: '20px',
+                            display: 'grid',
+                            placeItems: 'center',
+                            borderRadius: '20px',
+                            border: '1px solid #E4E4E7',
+                            bgcolor: 'white.95',
+                        }}
+                    >
+                        <Button
+                            onClick={() => setOpenForms(true)}
+                            sx={{
+                                width: '100%',
+                                fontSize: '40px',
+                                fontWeight: '700',
+                                color: 'grey.30',
+                                py: '0px',
+                                lineHeight: '60px'
+                            }}
+                        >
+                            +
+                        </Button>
+
+                    </Grid2>
+                )}
+
+
         </>
     )
 }

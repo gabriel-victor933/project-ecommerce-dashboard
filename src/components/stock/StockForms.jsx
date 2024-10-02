@@ -44,7 +44,7 @@ const formInputs = [
     }
 ]
 
-export default function StockForms({ productId }) {
+export default function StockForms({ productId, followUpAction }) {
 
     const { setFeedbackMessage, setGlobalLoading, globalLoading } = useAppContext()
 
@@ -74,6 +74,8 @@ export default function StockForms({ productId }) {
             await postData('/stock',payload)
 
             setFeedbackMessage("informações salvas!",false)
+
+            followUpAction()
         } catch (error) {
             console.log(error)
             setFeedbackMessage("Erro ao salvar informações de stock!",true)
