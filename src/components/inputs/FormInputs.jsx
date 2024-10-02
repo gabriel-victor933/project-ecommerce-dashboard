@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import ColorInput from "./inputs/ColorInput";
-import CurrencyInput from "./inputs/CurrencyInput";
-import ListInput from "./inputs/ListInput";
-import NumberInput from "./inputs/NumberInput";
-import SelectInput from "./inputs/SelectInput";
-import SwitchInput from "./inputs/SwitchInput";
-import TextInput from "./inputs/TextInput";
+import ColorInput from "./ColorInput";
+import CurrencyInput from "./CurrencyInput";
+import ListInput from "./ListInput";
+import NumberInput from "./NumberInput";
+import SelectInput from "./SelectInput";
+import SwitchInput from "./SwitchInput";
+import TextInput from "./TextInput";
 
 export default function FormInputs(props){
     

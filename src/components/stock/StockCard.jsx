@@ -1,16 +1,17 @@
-import { Grid2, Table, TableBody, TableCell, TableHead, Box } from "@mui/material";
+import { Grid2, Table, TableBody, TableCell, TableHead, Box, Button } from "@mui/material";
+import SaveImageModal from "../modal/SaveImageModal";
+import { useState } from "react";
+
+const link = "https://klothink-ecommerce.s3.us-east-2.amazonaws.com/7c6e87ac-57fc-42eb-9e77-1a2f1dde1ba2"
 
 // eslint-disable-next-line react/prop-types
 export default function StockCard({ color, sizes }) {
 
+    const [openModal, setOpenModal] = useState(false)
 
     const sizesMap = {}
-
     // eslint-disable-next-line react/prop-types
     sizes.forEach((item) => (sizesMap[item.size] = item.quantity))
-
-    console.log(sizesMap)
-
 
     return (
         <Grid2
@@ -53,6 +54,52 @@ export default function StockCard({ color, sizes }) {
                     <TableCell align='center'>{sizesMap['XXL']}</TableCell>
                 </TableBody>
             </Table>
+            <Grid2 
+                sx={{
+                    mt: '10px',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '10px',
+                }}
+            >
+                <Box
+                    sx={{
+                        width: '150px',
+                        height: '150px',
+                        bgcolor: 'white.90',
+                        borderRadius: '20px',
+                        backgroundImage: `url(${link})`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                        //mistura a cor de fundo da imagem com a da div;
+                        backgroundBlendMode: 'darken'
+                    }}
+                ></Box>
+                <Box
+                    sx={{
+                        width: '150px',
+                        height: '150px',
+                        bgcolor: 'white.90',
+                        borderRadius: '20px'
+                    }}
+                >
+                    <Button
+                        onClick={() => setOpenModal(true)}
+                        sx={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '20px'
+                        }}
+                    >
+                        +
+                    </Button>
+                </Box>
+            </Grid2>
+            <SaveImageModal 
+                open={openModal}
+                handleClose={()=> setOpenModal(false)}
+            />
         </Grid2>
     )
 }

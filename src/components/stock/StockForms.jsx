@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Formik } from "formik";
 import { addStockSchema } from "../../utils/validationSchemas";
-import FormInputs from "../FormInputs";
+import FormInputs from "../inputs/FormInputs"
 import { Grid2,Button } from "@mui/material";
 import useAppContext from "../../hooks/useAppContext";
 import { postData } from "../../services/api";

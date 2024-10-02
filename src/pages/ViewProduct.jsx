@@ -64,6 +64,7 @@ export default function ViewProduct() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '15px',
+                py: '20px'
             }}
         >
             <Grid2

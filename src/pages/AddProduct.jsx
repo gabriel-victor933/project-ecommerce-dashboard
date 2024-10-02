@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { Button, Grid2, Typography } from "@mui/material";
 import { Formik } from "formik";
-import FormInputs from "../components/FormInputs";
+import FormInputs from "../components/inputs/FormInputs";
 import { addProductSchema } from "../utils/validationSchemas";
 import useAppContext from "../hooks/useAppContext";
 import { useNavigate } from "react-router-dom";
