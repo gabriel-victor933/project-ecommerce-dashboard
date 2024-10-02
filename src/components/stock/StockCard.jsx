@@ -1,17 +1,21 @@
+/* eslint-disable react/prop-types */
 import { Grid2, Table, TableBody, TableCell, TableHead, Box, Button } from "@mui/material";
 import SaveImageModal from "../modal/SaveImageModal";
 import { useState } from "react";
 
-const link = "https://klothink-ecommerce.s3.us-east-2.amazonaws.com/7c6e87ac-57fc-42eb-9e77-1a2f1dde1ba2"
-
 // eslint-disable-next-line react/prop-types
-export default function StockCard({ color, sizes }) {
+export default function StockCard({ color, sizes, id, images, mutate }) {
 
     const [openModal, setOpenModal] = useState(false)
 
     const sizesMap = {}
     // eslint-disable-next-line react/prop-types
     sizes.forEach((item) => (sizesMap[item.size] = item.quantity))
+
+    function handleClose() {
+        setOpenModal(false)
+        mutate()
+    }
 
     return (
         <Grid2
@@ -62,13 +66,15 @@ export default function StockCard({ color, sizes }) {
                     gap: '10px',
                 }}
             >
-                <Box
+                {images.map((image,i) => (
+                    <Box
+                    key={i}
                     sx={{
                         width: '150px',
                         height: '150px',
                         bgcolor: 'white.90',
                         borderRadius: '20px',
-                        backgroundImage: `url(${link})`,
+                        backgroundImage: `url(${import.meta.env.VITE_BUCKET_URL}/${image.bucketKey})`,
                         backgroundSize: 'contain',
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'center',
@@ -76,6 +82,8 @@ export default function StockCard({ color, sizes }) {
                         backgroundBlendMode: 'darken'
                     }}
                 ></Box>
+                ))}
+                
                 <Box
                     sx={{
                         width: '150px',
@@ -89,7 +97,9 @@ export default function StockCard({ color, sizes }) {
                         sx={{
                             width: '100%',
                             height: '100%',
-                            borderRadius: '20px'
+                            borderRadius: '20px',
+                            fontSize: '60px',
+                            color: 'grey.40'
                         }}
                     >
                         +
@@ -97,8 +107,9 @@ export default function StockCard({ color, sizes }) {
                 </Box>
             </Grid2>
             <SaveImageModal 
+                stockId={id}
                 open={openModal}
-                handleClose={()=> setOpenModal(false)}
+                handleClose={handleClose}
             />
         </Grid2>
     )

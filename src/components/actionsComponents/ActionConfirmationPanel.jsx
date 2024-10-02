@@ -24,7 +24,7 @@ export default function ActionConfirmationPanel({loading, confirmAction, cancelA
         <Button 
             variant='contained' 
             color='secondary' 
-            onClick={confirmAction }
+            onClick={confirmAction}
             disabled={loading || disabledConfirm}
         >
             Salvar

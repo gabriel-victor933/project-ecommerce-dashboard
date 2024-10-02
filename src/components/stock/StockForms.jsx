@@ -44,7 +44,7 @@ const formInputs = [
     }
 ]
 
-export default function StockForms({ productId, closeAction }) {
+export default function StockForms({ productId, closeAction, mutate }) {
 
     const { setFeedbackMessage, setGlobalLoading, globalLoading } = useAppContext()
 
@@ -76,6 +76,8 @@ export default function StockForms({ productId, closeAction }) {
             setFeedbackMessage("informações salvas!",false)
 
             closeAction()
+
+            mutate()
         } catch (error) {
             console.log(error)
             setFeedbackMessage("Erro ao salvar informações de stock!",true)

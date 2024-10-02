@@ -3,11 +3,12 @@ import ActionConfirmationPanel from "../actionsComponents/ActionConfirmationPane
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { useState } from "react";
 import useAppContext from "../../hooks/useAppContext";
+import { postFormData } from "../../services/api";
 
 // eslint-disable-next-line react/prop-types
-export default function SaveImageModal({ open, handleClose }) {
+export default function SaveImageModal({ open, handleClose, stockId }) {
 
-    const { setFeedbackMessage } = useAppContext()
+    const { setFeedbackMessage, globalLoading, setGlobalLoading } = useAppContext()
 
     const [img, setImg] = useState(null)
     const [url, setUrl] = useState(null)
@@ -30,6 +31,33 @@ export default function SaveImageModal({ open, handleClose }) {
         setImg(null)
         setUrl(null)
         handleClose()
+    }
+
+    async function handleConfirm(){
+        
+        try {
+            setGlobalLoading(true)
+
+            const formData = new FormData()
+
+            formData.append('image',img)
+            formData.append('stockId',stockId)
+
+            const res = await postFormData('/images', formData)
+
+            console.log(res)
+
+            setFeedbackMessage("Imagem Salva com sucesso",true)
+
+            cancelAction()
+
+        } catch (error) {
+            console.log(error)
+            setFeedbackMessage("Não foi possivel salvar imagem",true)
+        } finally {
+            
+            setGlobalLoading(false)
+        }
     }
 
     return (
@@ -99,11 +127,10 @@ export default function SaveImageModal({ open, handleClose }) {
                             
                 </Box>
                 <ActionConfirmationPanel
-                    loading={false}
+                    loading={globalLoading}
                     disabledConfirm={img == null}
-                    confirmAcition={() => alert('Imagem Salva')}
+                    confirmAction={handleConfirm}
                     cancelAction={cancelAction}
-                    
                 />
                 
             </Grid2>

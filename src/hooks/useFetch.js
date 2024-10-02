@@ -1,13 +1,13 @@
 import useSWR from 'swr'
 
-export default function useFetch(url){
+export default function useFetch(url, options){
 
     const baseUrl = import.meta.env.VITE_BASE_URL + url
 
-    const { data , error, isLoading } = useSWR(baseUrl, fetcher) 
+    const { data , error, isLoading, mutate } = useSWR(baseUrl, fetcher, options) 
 
 
-    return { data , error, isLoading }
+    return { data , error, isLoading, mutate }
 }   
 
 async function fetcher(url){

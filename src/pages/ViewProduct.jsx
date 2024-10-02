@@ -17,7 +17,7 @@ export default function ViewProduct() {
 
     const { id } = useParams()
 
-    const { data, error, isLoading } = useFetch(`/products/${id}`)
+    const { data, error, isLoading, mutate } = useFetch(`/products/${id}`,{revalidateOnFocus: true})
 
     useEffect(() => {
         if (error) {
@@ -57,7 +57,7 @@ export default function ViewProduct() {
             </Grid2>
         )
     }
-    console.log(data)
+
     return (
         <Grid2
             sx={{
@@ -108,11 +108,15 @@ export default function ViewProduct() {
             </Grid2>
             <Divider />
             {data?.stocks.map((stock, i) => (
-                <StockCard key={i} {...stock} />
+                <StockCard key={i} {...stock} mutate={mutate} />
             ))}
             {openForms ?
                 (
-                    <StockForms productId={id} closeAction={() => setOpenForms(false)} />
+                    <StockForms 
+                        productId={id} 
+                        closeAction={() => setOpenForms(false)} 
+                        mutate={mutate}
+                    />
                 ) : (
                     <Grid2
                         sx={{
