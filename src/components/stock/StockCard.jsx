@@ -1,10 +1,15 @@
 /* eslint-disable react/prop-types */
-import { Grid2, Table, TableBody, TableCell, TableHead, Box, Button } from "@mui/material";
+import { Grid2, Table, TableBody, TableCell, TableHead, Box, Button, IconButton } from "@mui/material";
 import SaveImageModal from "../modal/SaveImageModal";
 import { useState } from "react";
+import DeleteIcon from '@mui/icons-material/Delete';
+import useAppContext from "../../hooks/useAppContext";
+import { deleteData } from "../../services/api";
 
 // eslint-disable-next-line react/prop-types
 export default function StockCard({ color, sizes, id, images, mutate }) {
+
+    const { setFeedbackMessage, setGlobalLoading } = useAppContext()
 
     const [openModal, setOpenModal] = useState(false)
 
@@ -15,6 +20,22 @@ export default function StockCard({ color, sizes, id, images, mutate }) {
     function handleClose() {
         setOpenModal(false)
         mutate()
+    }
+
+    async function handleDelete(id){
+        try {
+            setGlobalLoading(true)
+            
+            await deleteData(`/images/${id}`)
+
+            mutate()
+
+        } catch (error) {
+            console.log(error)
+            setFeedbackMessage("Erro ao apagar imagem!",true)
+        } finally {
+            setGlobalLoading(false)
+        }
     }
 
     return (
@@ -37,7 +58,7 @@ export default function StockCard({ color, sizes, id, images, mutate }) {
                     <TableCell align='center'>XXL</TableCell>
                 </TableHead>
                 <TableBody>
-                    <TableCell align='left' sx={{display: 'flex'}}>
+                    <TableCell align='left' sx={{ display: 'flex' }}>
                         {color}
                         <Box
                             sx={{
@@ -58,7 +79,7 @@ export default function StockCard({ color, sizes, id, images, mutate }) {
                     <TableCell align='center'>{sizesMap['XXL']}</TableCell>
                 </TableBody>
             </Table>
-            <Grid2 
+            <Grid2
                 sx={{
                     mt: '10px',
                     display: 'flex',
@@ -66,24 +87,53 @@ export default function StockCard({ color, sizes, id, images, mutate }) {
                     gap: '10px',
                 }}
             >
-                {images.map((image,i) => (
+                {images.map((image, i) => (
                     <Box
-                    key={i}
-                    sx={{
-                        width: '150px',
-                        height: '150px',
-                        bgcolor: 'white.90',
-                        borderRadius: '20px',
-                        backgroundImage: `url(${import.meta.env.VITE_BUCKET_URL}/${image.bucketKey})`,
-                        backgroundSize: 'contain',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center',
-                        //mistura a cor de fundo da imagem com a da div;
-                        backgroundBlendMode: 'darken'
-                    }}
-                ></Box>
+                        key={i}
+                        sx={{
+                            width: '150px',
+                            height: '150px',
+                            bgcolor: 'white.90',
+                            borderRadius: '20px',
+                            backgroundImage: `url(${import.meta.env.VITE_BUCKET_URL}/${image.bucketKey})`,
+                            backgroundSize: 'contain',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'center',
+                            //mistura a cor de fundo da imagem com a da div;
+                            backgroundBlendMode: 'darken',
+                            cursor: 'pointer',
+
+
+                        }}
+                    >
+
+                        <IconButton
+                            onClick={() => handleDelete(image.id)}
+                            sx={{
+                                width: '100%',
+                                height: '100%',
+                                opacity: '0',
+                                borderRadius: '20px',
+                                display: 'grid',
+                                placeItems: 'center',
+
+                                '&:hover': {
+                                    opacity: '1',
+                                    backgroundColor: 'rgba(0,0,0,0.3)'
+                                }
+                            }}
+                        >
+                            <DeleteIcon
+                                sx={{
+                                    color: 'white.99',
+                                    fontSize: '60px'
+                                }}
+                            />
+                        </IconButton>
+
+                    </Box>
                 ))}
-                
+
                 <Box
                     sx={{
                         width: '150px',
@@ -106,7 +156,7 @@ export default function StockCard({ color, sizes, id, images, mutate }) {
                     </Button>
                 </Box>
             </Grid2>
-            <SaveImageModal 
+            <SaveImageModal
                 stockId={id}
                 open={openModal}
                 handleClose={handleClose}

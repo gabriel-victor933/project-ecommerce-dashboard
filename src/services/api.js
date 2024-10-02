@@ -33,3 +33,17 @@ export async function postFormData(url, formData){
 
     return await response.json()
 }
+
+export async function deleteData(url){
+    const baseUrl = import.meta.env.VITE_BASE_URL
+
+    const response = await fetch(baseUrl + url, {
+        method: 'DELETE',
+    })
+
+    if (!response.ok) {
+        const errorMessage = `Erro na requisição: ${response.status} ${response.statusText}`;
+        throw new Error(errorMessage)
+    }
+
+}
